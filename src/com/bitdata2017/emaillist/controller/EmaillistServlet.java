@@ -26,8 +26,6 @@ public class EmaillistServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher( "/WEB-INF/views/form.jsp" );
 			rd.forward( request, response );
 		} else if( "insert".equals( actionName ) ) {
-			request.setCharacterEncoding( "utf-8" );
-
 			String firstName = request.getParameter( "fn" );
 			String lastName = request.getParameter( "ln" );
 			String email = request.getParameter( "email" );
