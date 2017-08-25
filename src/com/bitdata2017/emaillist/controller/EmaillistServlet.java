@@ -23,13 +23,31 @@ public class EmaillistServlet extends HttpServlet {
 		String actionName = request.getParameter( "a" );
 		
 		if( "form".equals( actionName ) ) {
-			
+			RequestDispatcher rd = request.getRequestDispatcher( "/WEB-INF/views/form.jsp" );
+			rd.forward( request, response );
 		} else if( "insert".equals( actionName ) ) {
+			request.setCharacterEncoding( "utf-8" );
+
+			String firstName = request.getParameter( "fn" );
+			String lastName = request.getParameter( "ln" );
+			String email = request.getParameter( "email" );
+			
+			EmaillistVo vo = new EmaillistVo();
+			vo.setFirstName(firstName);
+			vo.setLastName(lastName);
+			vo.setEmail(email);
+			
+			new EmaillistDao().insert( vo );
+			
+			response.sendRedirect( request.getContextPath() + "/el" );	
+			
 			
 		} else {
 			/* default 요청 처리 (list) */
 			EmaillistDao dao = new EmaillistDao();
 			List<EmaillistVo> list = dao.getList();			
+			
+			request.setAttribute( "list", list );
 			
 			RequestDispatcher rd = request.getRequestDispatcher( "/WEB-INF/views/index.jsp" );
 			rd.forward( request, response );
